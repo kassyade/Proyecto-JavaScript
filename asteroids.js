@@ -6,6 +6,9 @@ let posicionJugador
 let distancia = 20; 
 let obstaculo = document.getElementById("objeto1")
 //movimiento
+
+
+
 document.addEventListener("keydown", (event) => {
     if (event.key === "ArrowUp") {
         arriba();

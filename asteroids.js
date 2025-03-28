@@ -265,6 +265,7 @@ function crearObstaculo(ubicacion){
 
 }
 /**
- * tieneen que crearse nuevos objetos cada x tiempo 
- * crear puntos de referencia desde los que se crean los obstaculos 
+ * crear direccion dependiendiendo de donde se crean los obstaculos 
+ * PROBLEMA ,direccion de los objetos puede que no se choquen con las esquians del jugador
+ * 
  */

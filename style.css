@@ -1,11 +1,25 @@
-#jugador{
-height: 25px;
-width: 25px;
-position:absolute;
-background-color: black;
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Press Start 2P', cursive;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+#titulo{
+    font-size: 3rem;
+    text-shadow: 4px 4px 0px #5b4392;
+}
+#inicio {
+    font-size: 1.2rem;
+    color:white;
 }
 #juegoPerdido {
-    color: rgb(150, 110, 150);
+    color:#5b4392;
     font-family: "Press Start 2P", cursive;
     font-size: 40px;
     text-align: center;
@@ -18,16 +32,25 @@ background-color: black;
 
 
 
+
+
+
+
+
+#jugador{
+    border: solid 1px white;
+height: 25px;
+width: 25px;
+position:absolute;
+background-color: black;
+}
 #objeto1,#objeto2,#objeto3,#objeto4,#objeto5,#objeto6,#objeto7{
+    
     position: absolute;
     height: 10px;
     width: 10px;
-    
-
-    background-color: rgb(173, 100, 100);
+    background-color: #ad6464;
 }
-
-
 #objeto1{
     left: 700px;
     top: 500px;

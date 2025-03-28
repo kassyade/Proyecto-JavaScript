@@ -4,20 +4,43 @@ width: 25px;
 position:absolute;
 background-color: black;
 }
+#juegoPerdido {
+    color: rgb(150, 110, 150);
+    font-family: "Press Start 2P", cursive;
+    font-size: 40px;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
 
-#objeto1{
+
+
+#objeto1,#objeto2,#objeto3,#objeto4,#objeto5,#objeto6,#objeto7{
     position: absolute;
     height: 10px;
     width: 10px;
-    left: 700px;
-    top: 500px;
+    
+
     background-color: rgb(173, 100, 100);
 }
+
+
+#objeto1{
+    left: 700px;
+    top: 500px;
+}
 #objeto2{
-    position: absolute;
-    height: 10px;
-    width: 10px;
     left: 300px;
     top: 300px;
-    background-color: rgb(173, 100, 100);
+}
+#objeto3{
+    left: 500px;
+    top: 100px;
+}
+#objeto4{
+    left: 300px;
+    top: 100px;
 }

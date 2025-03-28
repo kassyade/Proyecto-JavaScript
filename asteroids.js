@@ -5,6 +5,7 @@ jugador.style.left = "800px";
 let posicionJugador 
 let distancia = 20; 
 let obstaculo = document.getElementById("objeto1")
+let tiempo =0
 //movimiento
 
 
@@ -27,21 +28,45 @@ document.addEventListener("keydown", (event) => {
 });
 setInterval(
     ()=>{
+        tiempo+=tiempo+1
+    },1000
+)
+
+let intervalo =setInterval(
+    ()=>{
+
+
+        //DETECTAR CHOQUE
+
+        //posicionJugador es un array con las 4 esquinas del jugador
         posicionJugador= calcularPosicionJugador()
         //console.log(posicionJugador)
         let posObstaculos = posicionObstaculos()
         //console.log(posObstaculos)
         posObstaculos.forEach(
             (obstaculo)=>{  
-                if (obstaculo.x==posicionJugador.x&& obstaculo.y==posicionJugador.y){
-                    console.log("choquw")
-                }
+                
+                posicionJugador.forEach(
+                    (esquina)=>{
+                        if(esquina.x===obstaculo.x&& esquina.y===obstaculo.y){
+                            //console.log("choque")
+                            crearElemento("h1","GAME OVER",document.body,"juegoPerdido")
+                            crearElemento("h1","GAME OVER",document.body,"juegoPerdido")
+
+                            clearInterval(intervalo)
+                        }
+                    }
+                )
+
+
                 
             }
         )
     },100
 )
-
+function calcularTiempo(){
+    
+}
 function posicionObstaculos(){
 
     let cantidadObstaculos=calcularCantidadObstaculos()
@@ -72,12 +97,26 @@ function posicionObstaculos(){
 function calcularPosicionJugador(){
     //modificar la funcion para que tenga 4 posiciones (las 4 esquinas)
     let posicionJugador = jugador.getBoundingClientRect();
-    let x = posicionJugador.x+25
-    let y = posicionJugador.y+25
-    let z = {
+    let x = posicionJugador.x
+    let y = posicionJugador.y
+    //esquina1 es la posicion real del jugador y en base a esta calculare las 4 esquinas del jugador
+    let esquina1 = {
         x:x,y:y
     }
-    return z
+    let esquina2={
+        x:x+20 , y:y+20
+    }
+    let esquina3={
+        x:x+20 , y:y
+    }
+    let esquina4={
+        x:x , y:y+20
+    }
+
+    let posicionTotal=[
+    esquina1,esquina2,esquina3,esquina4
+    ]
+    return posicionTotal
 }
 function arriba() {
     let top = parseInt(jugador.style.top); 
@@ -102,6 +141,12 @@ function calcularCantidadObstaculos(){
     }
     return x
 
+}
+function crearElemento(tipo,contenido,padre,id){
+    let x = document.createElement(tipo)
+    x.innerHTML=contenido
+    x.id=id
+    padre.appendChild(x)
 }
 /**
  * La posicion de los objetos tiene que actualizarse ahora mismo calcula un objeto extra en la posicion 8 8 ???

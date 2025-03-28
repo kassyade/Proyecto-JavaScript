@@ -22,11 +22,25 @@ document.addEventListener("keydown", (event) => {
     if (event.key === "ArrowRight") {
         derecha();
     }
-    posicionJugador= calcularPosicionJugador()
-    posicionObstaculos()
-    console.log(posicionJugador)
+    //console.log(posicionJugador)
 
 });
+setInterval(
+    ()=>{
+        posicionJugador= calcularPosicionJugador()
+        //console.log(posicionJugador)
+        let posObstaculos = posicionObstaculos()
+        //console.log(posObstaculos)
+        posObstaculos.forEach(
+            (obstaculo)=>{  
+                if (obstaculo.x==posicionJugador.x&& obstaculo.y==posicionJugador.y){
+                    console.log("choquw")
+                }
+                
+            }
+        )
+    },100
+)
 
 function posicionObstaculos(){
 
@@ -47,18 +61,19 @@ function posicionObstaculos(){
         //console.log(posicion)
         posicionesObstaculos.push(posicion)
     }
-    console.log(posicionesObstaculos)
+   // console.log(posicionesObstaculos)
     
-
+    return posicionesObstaculos
 
 
 
 
 }
 function calcularPosicionJugador(){
+    //modificar la funcion para que tenga 4 posiciones (las 4 esquinas)
     let posicionJugador = jugador.getBoundingClientRect();
-    let x = posicionJugador.x
-    let y = posicionJugador.y
+    let x = posicionJugador.x+25
+    let y = posicionJugador.y+25
     let z = {
         x:x,y:y
     }

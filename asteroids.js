@@ -10,13 +10,8 @@ let distancia = 20;
 let obstaculo = document.getElementById("objeto1")
 let tiempo =0
 ////////////PUNTOS DE APARICION DE OBSTACULOS 
-let puntosDeAparicion = [
-    { nombre: "arribaIzquierda", x: 0, y: 0 },
-    { nombre: "arribaDerecha", x: window.innerWidth, y: 0 },
-    { nombre: "abajoIzquierda", x: 0, y: window.innerHeight },
-    { nombre: "abajoDerecha", x: window.innerWidth, y: window.innerHeight }
-];
-
+let diferencia = 10
+let puntosDeAparicion = correccionAparicion()
 
 //CAMBIO DE COLOR
 let texto = document.getElementById("inicio")
@@ -83,7 +78,7 @@ let intervalo =setInterval(
         //CREAR NUEVOS OBJETOS
         let cantidadObstaculos= calcularCantidadObstaculos()
 
-        if(cantidadObstaculos<6){
+        if(cantidadObstaculos<1){
             let numeroRandom = Math.floor(Math.random() * 4) + 1;
             switch(numeroRandom){
                 case 1 :    
@@ -104,10 +99,8 @@ let intervalo =setInterval(
                     
 
             }
+
         }
-
-
-
 
 
         posObstaculos.forEach(
@@ -118,7 +111,6 @@ let intervalo =setInterval(
                         if(esquina.x===obstaculo.x&& esquina.y===obstaculo.y){
                             //console.log("choque")
                             crearElemento("h1","!GAME OVER¡",document.body,"juegoPerdido")
-
                             clearInterval(intervalo)
                         }
                     }
@@ -234,13 +226,18 @@ function crearObstaculo(ubicacion){
     //console.log(obstaculo.id)
     obstaculo.style.position = "absolute"; 
     obstaculo.style.color="#ad6464"
-    obstaculo.style.top=ubicacion.y
-    obstaculo.style.left=ubicacion.x
+
+
+
+    ///UBICACION
+    //REDUCCION DE 10 pixeles 
+    obstaculo.style.top=(ubicacion.y)+"px"
+    obstaculo.style.left=(ubicacion.x)+"px"
     obstaculo.style.height = "10px"; 
     obstaculo.style.width = "10px";
     document.body.appendChild(obstaculo)
     //console.log(obstaculo)
-
+  
     //DIRECCION A LA QUE VA EL OBJETO
     let numeroRandom = Math.floor(Math.random() * 4) + 1;
     switch(numeroRandom){
@@ -264,8 +261,26 @@ function crearObstaculo(ubicacion){
 
 
 }
+function correccionAparicion() {
+    let diferencia = 20;
+
+    let anchoCorregido = window.innerWidth - (window.innerWidth % 20);
+    let altoCorregido = window.innerHeight - (window.innerHeight % 20);
+    
+    let puntosDeAparicion = [
+        { nombre: "arribaIzquierda", x: 0, y: 0 },
+        { nombre: "arribaDerecha", x: Math.floor(anchoCorregido - diferencia), y: 0 },
+        { nombre: "abajoIzquierda", x: 0, y: Math.floor(altoCorregido - diferencia) },
+        { nombre: "abajoDerecha", x: Math.floor(anchoCorregido - diferencia), y: Math.floor(altoCorregido - diferencia) }
+    ];
+    
+
+    return puntosDeAparicion
+}
+
+
+
 /**
  * crear direccion dependiendiendo de donde se crean los obstaculos 
- * PROBLEMA ,direccion de los objetos puede que no se choquen con las esquians del jugador
  * 
  */

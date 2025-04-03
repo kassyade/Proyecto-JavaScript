@@ -12,7 +12,9 @@ let tiempo =0
 ////////////PUNTOS DE APARICION DE OBSTACULOS 
 let diferencia = 10
 let puntosDeAparicion = correccionAparicion()
-
+let informacionObstaculos = [
+]
+//console.log(informacionObstaculos)
 //CAMBIO DE COLOR
 let texto = document.getElementById("inicio")
 let titulo = document.getElementById("titulo")
@@ -78,7 +80,7 @@ let intervalo =setInterval(
         //CREAR NUEVOS OBJETOS
         let cantidadObstaculos= calcularCantidadObstaculos()
 
-        if(cantidadObstaculos<1){
+        if(cantidadObstaculos<4){
             let numeroRandom = Math.floor(Math.random() * 4) + 1;
             switch(numeroRandom){
                 case 1 :    
@@ -123,10 +125,59 @@ let intervalo =setInterval(
     },100
 )
 
+let movimientoObstaculos = setInterval(
+    ()=>{
+        let distancia =20
+        //console.log(informacionObstaculos)
+        informacionObstaculos.forEach(
+            (obstaculo)=>{
+                //console.log(obstaculo)
+                let objeto = document.getElementById(obstaculo.id);
+
+                if (!objeto) return;
+
+                let topActual = parseInt(objeto.style.top) 
+                let leftActual = parseInt(objeto.style.left) 
+            
+                if (obstaculo.direccion === "arriba") {
+                    objeto.style.top = (topActual - 20) + "px"
+                }
+            
+                if (obstaculo.direccion === "abajo") {
+                    objeto.style.top = (topActual + 20) + "px"
+                }
+            
+                if (obstaculo.direccion === "izquierda") {
+                    objeto.style.left = (leftActual - 20) + "px"                 }
+            
+                if (obstaculo.direccion === "derecha") {
+                    objeto.style.left = (leftActual + 20) + "px"
+                }
+
+
+                //borrar si sale de la pantalla
+                let rect = objeto.getBoundingClientRect();
+                if (rect.top + rect.height < 0 ||  
+                    rect.bottom > window.innerHeight ||  
+                    rect.left + rect.width < 0 ||  
+                    rect.right > window.innerWidth  
+                ) {
+                    informacionObstaculos = informacionObstaculos.filter(x => x.id !== obstaculo.id);
+                    objeto.remove();  
+                }
+
+            }
+        )
 
 
 
-//console.log(puntosDeAparicion);
+
+
+    }
+    ,100
+)
+
+
 
 
 
@@ -217,50 +268,6 @@ function crearElemento(tipo,contenido,padre,id){
     x.id=id
     padre.appendChild(x)
 }
-function crearObstaculo(ubicacion){
-//CADA OBJETO TIENE QUE TENER DIRECCION DEPENDIENDO DEL PUNTO DE CREACION 
-    //console.log(ubicacion)
-    let numeroObjeto=calcularCantidadObstaculos()+1
-    let obstaculo = document.createElement("div")
-    obstaculo.id=`objeto${numeroObjeto}`
-    //console.log(obstaculo.id)
-    obstaculo.style.position = "absolute"; 
-    obstaculo.style.color="#ad6464"
-
-
-
-    ///UBICACION
-    //REDUCCION DE 10 pixeles 
-    obstaculo.style.top=(ubicacion.y)+"px"
-    obstaculo.style.left=(ubicacion.x)+"px"
-    obstaculo.style.height = "10px"; 
-    obstaculo.style.width = "10px";
-    document.body.appendChild(obstaculo)
-    //console.log(obstaculo)
-  
-    //DIRECCION A LA QUE VA EL OBJETO
-    let numeroRandom = Math.floor(Math.random() * 4) + 1;
-    switch(numeroRandom){
-        case 1 :    
-        break;
-        
-        case 2 :
-        break;
-        
-        case 3 :
-        break;
-        
-        case 4 :
-        break;
-            
-
-    }
-
-
-
-
-
-}
 function correccionAparicion() {
     let diferencia = 20;
 
@@ -277,7 +284,126 @@ function correccionAparicion() {
 
     return puntosDeAparicion
 }
+function crearObstaculo(ubicacion){
+//CADA OBJETO TIENE QUE TENER DIRECCION DEPENDIENDO DEL PUNTO DE CREACION 
+    //console.log(ubicacion)
+    let numeroObjeto=calcularCantidadObstaculos()+1
+    let obstaculo = document.createElement("div")
 
+
+    obstaculo.id=`objeto${numeroObjeto}`
+    //console.log(obstaculo.id)
+    obstaculo.style.position = "absolute"; 
+    obstaculo.style.color="#ad6464"
+
+
+
+    ///UBICACION
+    //AJUSTE DE 20 pixeles 
+    obstaculo.style.top=(ubicacion.y)+"px"
+    obstaculo.style.left=(ubicacion.x)+"px"
+    obstaculo.style.height = "10px"; 
+    obstaculo.style.width = "10px";
+    document.body.appendChild(obstaculo)
+    //console.log(obstaculo)
+  
+    //DIRECCION A LA QUE VA EL OBJETO
+    let direccion = determinarDireccion(ubicacion.nombre)
+
+    //console.log(direccion)
+
+
+    //INFORMACION DE LOS OBJETOS 
+    let info = { id : obstaculo.id , ubicacionInicio: ubicacion.nombre ,direccion:direccion ,x:obstaculo.style.left ,y:obstaculo.style.top }
+    informacionObstaculos.push(info)
+    //console.log(informacionObstaculos)
+    return informacionObstaculos
+
+
+
+
+}
+function determinarDireccion (posicionInicial){
+    let direccion
+    let direccionesPosibles =[
+        {dir:"arriba" },
+        {dir:"abajo" },
+        {dir:"izquierda" },
+        {dir:"derecha" }
+    ]
+    
+
+
+    if(posicionInicial ==="arribaIzquierda"){
+        //console.log(posicionInicial)
+
+        let numeroRandom = Math.floor(Math.random() * 2) + 1;
+        switch(numeroRandom){
+            case 1 :    
+            direccion= direccionesPosibles[1].dir
+            break;
+            
+            case 2 :
+                direccion= direccionesPosibles[3].dir
+            break;
+            
+
+                
+    
+        }
+
+
+    }
+    if(posicionInicial==="arribaDerecha"){
+        let numeroRandom = Math.floor(Math.random() * 2) + 1;
+        switch(numeroRandom){
+            case 1 :    
+            direccion= direccionesPosibles[1].dir
+            break;
+            
+            case 2 :
+                direccion= direccionesPosibles[2].dir
+            break;
+            
+
+                
+    
+        }
+    }
+    if(posicionInicial==="abajoIzquierda"){
+        let numeroRandom = Math.floor(Math.random() * 2) + 1;
+    switch(numeroRandom){
+        case 1 : 
+        direccion= direccionesPosibles[0].dir   
+        break;
+        
+        case 2 :
+            direccion= direccionesPosibles[3].dir
+        break;
+        
+
+            
+
+    }
+    }
+    if(posicionInicial==="abajoDerecha"){
+        let numeroRandom = Math.floor(Math.random() * 2) + 1;
+    switch(numeroRandom){
+        case 1 :    
+        direccion= direccionesPosibles[0].dir
+        break;
+        
+        case 2 :
+            direccion= direccionesPosibles[2].dir
+        break;
+    
+            
+
+    }
+    }
+    return direccion ; 
+
+}
 
 
 /**

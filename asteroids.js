@@ -6,12 +6,12 @@ jugador.style.position = "absolute";
 jugador.style.top = "400px";
 jugador.style.left = "800px";
 let posicionJugador 
-let distancia = 20; 
+let distancia = 10;//velocidad  de jugador 
 let obstaculo = document.getElementById("objeto1")
 let tiempo =0
 ////////////PUNTOS DE APARICION DE OBSTACULOS 
 let diferencia = 10
-let numeroObstaculos = 7//cantidad de obstaculos en pantalla 
+let numeroObstaculos = 15//cantidad de obstaculos en pantalla 
 let puntosDeAparicion = correccionAparicion()
 let informacionObstaculos = [
 ]
@@ -137,59 +137,41 @@ let intervalo =setInterval(
         )
     },100
 )
+let movimientoObstaculos = setInterval(() => {
+    informacionObstaculos.forEach((obstaculo) => {
+        let objeto = document.getElementById(obstaculo.id)
+        if (!objeto) return
 
-let movimientoObstaculos = setInterval(
-    ()=>{
-            //console.log(informacionObstaculos)
-        informacionObstaculos.forEach(
-            (obstaculo)=>{
-                //console.log(obstaculo)
-                let objeto = document.getElementById(obstaculo.id);
+        let topActual = parseInt(objeto.style.top)
+        let leftActual = parseInt(objeto.style.left)
+        let distancia = 1
 
-                if (!objeto) return;
+        // Mueve en ambas direcciones (diagonal)
+        if (obstaculo.direccion.includes("arriba")) {
+            objeto.style.top = (topActual - distancia) + "px"
+        }
+        if (obstaculo.direccion.includes("abajo")) {
+            objeto.style.top = (topActual + distancia) + "px"
+        }
+        if (obstaculo.direccion.includes("izquierda")) {
+            objeto.style.left = (leftActual - distancia) + "px"
+        }
+        if (obstaculo.direccion.includes("derecha")) {
+            objeto.style.left = (leftActual + distancia) + "px"
+        }
 
-                let topActual = parseInt(objeto.style.top) 
-                let leftActual = parseInt(objeto.style.left) 
-                let distancia=1
-            
-                if (obstaculo.direccion === "arriba") {
-                    objeto.style.top = (topActual - distancia) + "px"
-                }
-            
-                if (obstaculo.direccion === "abajo") {
-                    objeto.style.top = (topActual + distancia) + "px"
-                }
-            
-                if (obstaculo.direccion === "izquierda") {
-                    objeto.style.left = (leftActual - distancia) + "px"                 }
-            
-                if (obstaculo.direccion === "derecha") {
-                    objeto.style.left = (leftActual + distancia) + "px"
-                }
-
-
-                //borrar si sale de la pantalla
-                let rect = objeto.getBoundingClientRect()
-                if (rect.top + rect.height < 0 ||  
-                    rect.bottom > window.innerHeight ||  
-                    rect.left + rect.width < 0 ||  
-                    rect.right > window.innerWidth  
-                ) {
-                    informacionObstaculos = informacionObstaculos.filter(x => x.id !== obstaculo.id)
-                    objeto.remove();  
-                }
-
-            }
-        )
-
-
-
-
-
-    }
-    ,10
-)
-
+        // borrar si sale de la pantalla
+        let rect = objeto.getBoundingClientRect()
+        if (rect.top + rect.height < 0 ||  
+            rect.bottom > window.innerHeight ||  
+            rect.left + rect.width < 0 ||  
+            rect.right > window.innerWidth  
+        ) {
+            informacionObstaculos = informacionObstaculos.filter(x => x.id !== obstaculo.id)
+            objeto.remove()
+        }
+    })
+}, 10)
 
 
 
@@ -365,21 +347,19 @@ function crearObstaculo(ubicacion){
 }
 function determinarDireccion(posicionInicial) {
     let direccionesPosibles = {
-        "arribaIzquierda": ["abajo", "derecha"],
-        "arribaDerecha": ["abajo", "izquierda"],
-        "abajoIzquierda": ["arriba", "derecha"],
-        "abajoDerecha": ["arriba", "izquierda"],
-        "centroSuperior": ["abajo", "izquierda", "derecha"],
-        "centroInferior": ["arriba", "izquierda", "derecha"],
-        "centroIzquierda": ["arriba", "abajo", "derecha"],
-        "centroDerecha": ["arriba", "abajo", "izquierda"]
-    }
+        "arribaIzquierda": [["abajo", "derecha"]],
+        "arribaDerecha": [["abajo", "izquierda"]],
+        "abajoIzquierda": [["arriba", "derecha"]],
+        "abajoDerecha": [["arriba", "izquierda"]],
+        "centroSuperior": [ ["abajo"], ["abajo", "izquierda"], ["abajo", "derecha"]],
+        "centroInferior": [["arriba"],["arriba", "izquierda"], ["arriba", "derecha"]],
+        "centroIzquierda": [["derecha"],["arriba", "derecha"], ["abajo", "derecha"]],
+        "centroDerecha": [["izquierda"],["arriba", "izquierda"], ["abajo", "izquierda"]]
+    };
 
-    let opciones = direccionesPosibles[posicionInicial] || []
-    return opciones.length ? opciones[Math.floor(Math.random() * opciones.length)] : null
+    let opciones = direccionesPosibles[posicionInicial] || [["abajo", "izquierda"]]
+    return opciones[Math.floor(Math.random() * opciones.length)]
 }
-
-
 /**
  * crear direccion dependiendiendo de donde se crean los obstaculos 
  * 

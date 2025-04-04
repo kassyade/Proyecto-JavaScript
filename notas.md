@@ -18,3 +18,5 @@ crear mas puntos de aparicion ,se puede tomar de referencia los que existen (par
 PROBLEMA: demasiadas funciones en el codigo ,puede que sea necesario refactorizar ??crear documentacion para implementar el juego en un portfolio 
 añadir informacionn del fin del juego -tiempo -puntuación 
 implementar el volver a jugar //puede que funcione un boton que simplemente recargue la página ?
+
+hace falta crear una direccion que apunte hacia el jugador ,existen zonas en las que no dan los obstaculos

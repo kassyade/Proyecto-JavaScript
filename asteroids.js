@@ -11,7 +11,7 @@ let obstaculo = document.getElementById("objeto1")
 let tiempo =0
 ////////////PUNTOS DE APARICION DE OBSTACULOS 
 let diferencia = 10
-let numeroObstaculos = 6//cantidad de obstaculos en pantalla 
+let numeroObstaculos = 7//cantidad de obstaculos en pantalla 
 let puntosDeAparicion = correccionAparicion()
 let informacionObstaculos = [
 ]
@@ -82,24 +82,36 @@ let intervalo =setInterval(
         let cantidadObstaculos= calcularCantidadObstaculos()
         
         if(cantidadObstaculos<numeroObstaculos){
-            let numeroRandom = Math.floor(Math.random() * 4) + 1;
+            let numeroRandom = Math.floor(Math.random() * numeroObstaculos) + 1;
             switch(numeroRandom){
                 case 1 :    
                     crearObstaculo(puntosDeAparicion[0])
-                break;
+                break
                 
                 case 2 :
                     crearObstaculo(puntosDeAparicion[1])
-                break;
+                break
                 
                 case 3 :
                     crearObstaculo(puntosDeAparicion[2])
-                break;
+                break
                 
                 case 4 :
                     crearObstaculo(puntosDeAparicion[3])
-                break;
-                    
+                break
+                case 5 :    
+                    crearObstaculo(puntosDeAparicion[4])
+                break
+                case 6 :    
+                    crearObstaculo(puntosDeAparicion[5])
+                break
+                case 7 :    
+                    crearObstaculo(puntosDeAparicion[6])
+                break 
+                case 8 :    
+                crearObstaculo(puntosDeAparicion[7])
+                break   
+
 
             }
 
@@ -301,8 +313,13 @@ function correccionAparicion() {
         { nombre: "arribaIzquierda", x: 0, y: 0 },
         { nombre: "arribaDerecha", x: Math.floor(anchoCorregido - diferencia), y: 0 },
         { nombre: "abajoIzquierda", x: 0, y: Math.floor(altoCorregido - diferencia) },
-        { nombre: "abajoDerecha", x: Math.floor(anchoCorregido - diferencia), y: Math.floor(altoCorregido - diferencia) }
-    ];
+        { nombre: "abajoDerecha", x: Math.floor(anchoCorregido - diferencia), y: Math.floor(altoCorregido - diferencia) },
+        { nombre: "centroSuperior", x: Math.floor(anchoCorregido / 2), y: 0 },
+        { nombre: "centroInferior", x: Math.floor(anchoCorregido / 2), y: Math.floor(altoCorregido - diferencia) },
+        { nombre: "centroIzquierda", x: 0, y: Math.floor(altoCorregido / 2) },
+        { nombre: "centroDerecha", x: Math.floor(anchoCorregido - diferencia), y: Math.floor(altoCorregido / 2) },
+        
+    ]
     
 
     return puntosDeAparicion
@@ -346,86 +363,20 @@ function crearObstaculo(ubicacion){
 
 
 }
-function determinarDireccion (posicionInicial){
-    let direccion
-    let direccionesPosibles =[
-        {dir:"arriba" },
-        {dir:"abajo" },
-        {dir:"izquierda" },
-        {dir:"derecha" }
-    ]
-    
-
-
-    if(posicionInicial ==="arribaIzquierda"){
-        //console.log(posicionInicial)
-
-        let numeroRandom = Math.floor(Math.random() * 2) + 1;
-        switch(numeroRandom){
-            case 1 :    
-            direccion= direccionesPosibles[1].dir
-            break;
-            
-            case 2 :
-                direccion= direccionesPosibles[3].dir
-            break;
-            
-
-                
-    
-        }
-
-
+function determinarDireccion(posicionInicial) {
+    let direccionesPosibles = {
+        "arribaIzquierda": ["abajo", "derecha"],
+        "arribaDerecha": ["abajo", "izquierda"],
+        "abajoIzquierda": ["arriba", "derecha"],
+        "abajoDerecha": ["arriba", "izquierda"],
+        "centroSuperior": ["abajo", "izquierda", "derecha"],
+        "centroInferior": ["arriba", "izquierda", "derecha"],
+        "centroIzquierda": ["arriba", "abajo", "derecha"],
+        "centroDerecha": ["arriba", "abajo", "izquierda"]
     }
-    if(posicionInicial==="arribaDerecha"){
-        let numeroRandom = Math.floor(Math.random() * 2) + 1;
-        switch(numeroRandom){
-            case 1 :    
-            direccion= direccionesPosibles[1].dir
-            break;
-            
-            case 2 :
-                direccion= direccionesPosibles[2].dir
-            break;
-            
 
-                
-    
-        }
-    }
-    if(posicionInicial==="abajoIzquierda"){
-        let numeroRandom = Math.floor(Math.random() * 2) + 1;
-    switch(numeroRandom){
-        case 1 : 
-        direccion= direccionesPosibles[0].dir   
-        break;
-        
-        case 2 :
-            direccion= direccionesPosibles[3].dir
-        break;
-        
-
-            
-
-    }
-    }
-    if(posicionInicial==="abajoDerecha"){
-        let numeroRandom = Math.floor(Math.random() * 2) + 1;
-    switch(numeroRandom){
-        case 1 :    
-        direccion= direccionesPosibles[0].dir
-        break;
-        
-        case 2 :
-            direccion= direccionesPosibles[2].dir
-        break;
-    
-            
-
-    }
-    }
-    return direccion ; 
-
+    let opciones = direccionesPosibles[posicionInicial] || []
+    return opciones.length ? opciones[Math.floor(Math.random() * opciones.length)] : null
 }
 
 

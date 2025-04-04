@@ -11,6 +11,7 @@ let obstaculo = document.getElementById("objeto1")
 let tiempo =0
 ////////////PUNTOS DE APARICION DE OBSTACULOS 
 let diferencia = 10
+let numeroObstaculos = 6//cantidad de obstaculos en pantalla 
 let puntosDeAparicion = correccionAparicion()
 let informacionObstaculos = [
 ]
@@ -79,8 +80,8 @@ let intervalo =setInterval(
         
         //CREAR NUEVOS OBJETOS
         let cantidadObstaculos= calcularCantidadObstaculos()
-
-        if(cantidadObstaculos<4){
+        
+        if(cantidadObstaculos<numeroObstaculos){
             let numeroRandom = Math.floor(Math.random() * 4) + 1;
             switch(numeroRandom){
                 case 1 :    
@@ -127,8 +128,7 @@ let intervalo =setInterval(
 
 let movimientoObstaculos = setInterval(
     ()=>{
-        let distancia =20
-        //console.log(informacionObstaculos)
+            //console.log(informacionObstaculos)
         informacionObstaculos.forEach(
             (obstaculo)=>{
                 //console.log(obstaculo)
@@ -138,31 +138,32 @@ let movimientoObstaculos = setInterval(
 
                 let topActual = parseInt(objeto.style.top) 
                 let leftActual = parseInt(objeto.style.left) 
+                let distancia=1
             
                 if (obstaculo.direccion === "arriba") {
-                    objeto.style.top = (topActual - 20) + "px"
+                    objeto.style.top = (topActual - distancia) + "px"
                 }
             
                 if (obstaculo.direccion === "abajo") {
-                    objeto.style.top = (topActual + 20) + "px"
+                    objeto.style.top = (topActual + distancia) + "px"
                 }
             
                 if (obstaculo.direccion === "izquierda") {
-                    objeto.style.left = (leftActual - 20) + "px"                 }
+                    objeto.style.left = (leftActual - distancia) + "px"                 }
             
                 if (obstaculo.direccion === "derecha") {
-                    objeto.style.left = (leftActual + 20) + "px"
+                    objeto.style.left = (leftActual + distancia) + "px"
                 }
 
 
                 //borrar si sale de la pantalla
-                let rect = objeto.getBoundingClientRect();
+                let rect = objeto.getBoundingClientRect()
                 if (rect.top + rect.height < 0 ||  
                     rect.bottom > window.innerHeight ||  
                     rect.left + rect.width < 0 ||  
                     rect.right > window.innerWidth  
                 ) {
-                    informacionObstaculos = informacionObstaculos.filter(x => x.id !== obstaculo.id);
+                    informacionObstaculos = informacionObstaculos.filter(x => x.id !== obstaculo.id)
                     objeto.remove();  
                 }
 
@@ -174,7 +175,7 @@ let movimientoObstaculos = setInterval(
 
 
     }
-    ,100
+    ,10
 )
 
 
@@ -219,6 +220,7 @@ function calcularPosicionJugador(){
     let posicionJugador = jugador.getBoundingClientRect();
     let x = posicionJugador.x
     let y = posicionJugador.y
+    let posicionTotal=[]
     //esquina1 es la posicion real del jugador y en base a esta calculare las 4 esquinas del jugador
     let esquina1 = {
         x:x,y:y
@@ -232,10 +234,31 @@ function calcularPosicionJugador(){
     let esquina4={
         x:x , y:y+20
     }
+    posicionTotal.push(esquina1,esquina2,esquina3,esquina4)
+    /////INCOMPLETO
+    let borde1
+    let borde2
+    let borde3
+    let borde4
+    for (let i = 1; i < 25; i++) {
+        posicionTotal.push({ x: x + i, y: y })
+    }
 
-    let posicionTotal=[
-    esquina1,esquina2,esquina3,esquina4
-    ]
+    for (let i = 1; i < 25; i++) {
+        posicionTotal.push({ x: x + 25, y: y + i })
+    }
+
+    for (let i = 25 - 1; i > 0; i--) {
+        posicionTotal.push({ x: x + i, y: y + 25 })
+    }
+
+    for (let i = 25 - 1; i > 0; i--) {
+        posicionTotal.push({ x: x, y: y + i })
+    }
+    
+
+
+
     return posicionTotal
 }
 function arriba() {

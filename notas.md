@@ -11,3 +11,10 @@ Necesito crear un array que guarde la informacion de todos los obstaculos en est
 
 necesito crear un set interval que segun la informacion del array informacionObstaculos 
 mueva a los obstaculos ,el movimiento deberia ser cada ????tiempo?? -500?
+
+Movimiento fluido 1px -10 mm/s
+puede que sea necesario tomar todo el borde del jugador para calcular la colision ,no hay problema con el movimietno en diagonal (obstaculos)
+crear mas puntos de aparicion ,se puede tomar de referencia los que existen (para no usar la funcion de correccion)
+PROBLEMA: demasiadas funciones en el codigo ,puede que sea necesario refactorizar ??crear documentacion para implementar el juego en un portfolio 
+añadir informacionn del fin del juego -tiempo -puntuación 
+implementar el volver a jugar //puede que funcione un boton que simplemente recargue la página ?

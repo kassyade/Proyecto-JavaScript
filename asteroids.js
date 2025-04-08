@@ -11,7 +11,7 @@ let obstaculo = document.getElementById("objeto1")
 let tiempo =0
 ////////////PUNTOS DE APARICION DE OBSTACULOS 
 let diferencia = 10
-let numeroObstaculos = 15//cantidad de obstaculos en pantalla 
+let numeroObstaculos = 25//cantidad de obstaculos en pantalla 
 let puntosDeAparicion = correccionAparicion()
 let informacionObstaculos = [
 ]
